@@ -11,7 +11,8 @@
  * Comment(s)    : Формирование последовательностей (упорядоченные и           *
  *                 неупорядоченные массивы), измерение последовательностей и   *
  *                 частично упорядоченные последовательности. Формирование     *
- *                 последовательностей на экране                                *
+ *                 последовательностей на экране. Добавлена экспоненциальная  *
+ *                 последовательность для демонстрации роста по экспоненте     *
  *******************************************************************************/
 
 #include "sequences.h"
@@ -43,7 +44,9 @@ void pechatusloviy()
     cout << "+------------------------------+" << endl;
     cout << "|      7. sinus               |" << endl;
     cout << "+------------------------------+" << endl;
-    cout << "|      8: Exit.               |" << endl;
+    cout << "|      8. exponencialnaya     |" << endl;
+    cout << "+------------------------------+" << endl;
+    cout << "|      9: Exit.               |" << endl;
     cout << "+------------------------------+" << endl;
     return;
 }
@@ -194,17 +197,37 @@ int sinus(int* pznachenue, int number, const int rand_max)
 }
 
 /*-------------------------------------------------*/
+/* Экспоненциальная последовательность          */
+/*----------------------------------------------*/
+int exponencialnaya(int* pznachenue, int number, const int rand_max)
+{
+    double base = 1.5;                                                           // Основание экспоненты
+    double coefficient = rand_max / 10.0;                                         // Коэффициент масштабирования
+    
+    // Формирование всех элементов последовательности, начиная с 1-го
+    for (int n = 0; n < number; n++)
+    {
+        *(pznachenue + n) = int(coefficient * pow(base, n));                    // Экспоненциальная функция: y = a * b^n
+        if (n % 5 == 0)                                                          // Добавляем случайности для каждого 5-го элемента
+        {
+            *(pznachenue + n) = *(pznachenue + n) + rand() % (rand_max / 2);    // Добавляем случайное отклонение
+        }
+    }
+    return 0;                                                                    // Завершение функции
+}
+
+/*-------------------------------------------------*/
 /* Выбор функции из меню                     */
 /*----------------------------------------------*/
 int(*MENU())(int*, int, const int)
 {
     int choise;
-    string name[8] = { "slucaynaya", "lineubuvanie", "linevozrastanie", "piloobraznaya", "stupenchataya","kvazi","sinus", "Exit." };
-    int (*functions[])(int*, int, const int) = { slucaynaya, lineubuvanie, linevozrastanie, piloobraznaya, stupenchataya, kvazi, sinus };
-    cout << "\nВыберите функцию: 1 - 8, где 8 - выход \n";
+    string name[9] = { "slucaynaya", "lineubuvanie", "linevozrastanie", "piloobraznaya", "stupenchataya","kvazi","sinus", "exponencialnaya", "Exit." };
+    int (*functions[])(int*, int, const int) = { slucaynaya, lineubuvanie, linevozrastanie, piloobraznaya, stupenchataya, kvazi, sinus, exponencialnaya };
+    cout << "\nВыберите функцию: 1 - 9, где 9 - выход \n";
     cout << "Ваш выбор: ";
     cin >> choise;                                                              // Ввод выбранного пользователя
-    if ((choise > 0) && (choise < 8))                                           // Если выбор в допустимом диапазоне
+    if ((choise > 0) && (choise < 9))                                           // Если выбор в допустимом диапазоне
     {
         cout << "\t\t\t\t\t\tВЫБРАННАЯ   " << name[choise - 1] << endl << endl;           // Вывод названия алгоритма из массива
         return functions[choise - 1];                                           // Возвращаем соответствующую функцию
@@ -427,17 +450,37 @@ double sinus(double* pznacheniedoub, int number, const int rand_max)
 }
 
 /*-------------------------------------------------*/
+/* Экспоненциальная последовательность          */
+/*----------------------------------------------*/
+double exponencialnaya(double* pznacheniedoub, int number, const int rand_max)
+{
+    double base = 1.5;                                                       // Основание экспоненты
+    double coefficient = rand_max / 10.0;                                     // Коэффициент масштабирования
+    
+    // Формирование всех элементов последовательности, начиная с 1-го
+    for (int n = 0; n < number; n++)
+    {
+        *(pznacheniedoub + n) = coefficient * pow(base, n);                  // Экспоненциальная функция: y = a * b^n
+        if (n % 5 == 0)                                                      // Добавляем случайности для каждого 5-го элемента
+        {
+            *(pznacheniedoub + n) = *(pznacheniedoub + n) + double(rand() % (rand_max / 2)) + 0.123;  // Добавляем случайное отклонение
+        }
+    }
+    return 0;                                                                // Завершение функции
+}
+
+/*-------------------------------------------------*/
 /* Выбор функции из меню                     */
 /*----------------------------------------------*/
 double (*MENU2())(double*, int, const int)
 {
     int choisedoub;                                                         // Выбор пользователя
-    string name[8] = { "slucaynaya", "lineubuvanie", "linevozrastanie", "piloobraznaya", "stupenchataya","kvazi","sinus", "Exit." };
-    double (*functionsdoub[])(double*, int, const int) = { slucaynaya, lineubuvanie, linevozrastanie, piloobraznaya, stupenchataya, kvazi, sinus };
-    cout << "\nВыберите функцию: 1 - 8, где 8 - выход \n";
+    string name[9] = { "slucaynaya", "lineubuvanie", "linevozrastanie", "piloobraznaya", "stupenchataya","kvazi","sinus", "exponencialnaya", "Exit." };
+    double (*functionsdoub[])(double*, int, const int) = { slucaynaya, lineubuvanie, linevozrastanie, piloobraznaya, stupenchataya, kvazi, sinus, exponencialnaya };
+    cout << "\nВыберите функцию: 1 - 9, где 9 - выход \n";
     cout << "Ваш выбор: ";
     cin >> choisedoub;                                                       // Ввод выбора пользователя           
-    if ((choisedoub > 0) && (choisedoub) < 8)                                // Если выбор в допустимом диапазоне
+    if ((choisedoub > 0) && (choisedoub) < 9)                                // Если выбор в допустимом диапазоне
     {
         cout << "\t\t\t\t\t\tВЫБРАННАЯ   " << name[choisedoub - 1] << endl << endl;           // Вывод названия алгоритма из массива
         return functionsdoub[choisedoub - 1];                                // Возвращаем соответствующую функцию
