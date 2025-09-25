@@ -73,17 +73,23 @@ void demo_stupenchataya()
         }
         cout << " (" << demo_array_double[i] << ")" << endl;
     }
+
+    // ⭐⭐⭐ ДОБАВЛЕНО PERSON1 - ЦИКЛ WHILE ⭐⭐⭐
+    cout << "\nДополнительная обработка (person1 - while цикл):" << endl;
+    int i = 0;
+    while (i < demo_size) {
+        if (demo_array[i] % 2 == 0) {
+            cout << "Четное число: " << demo_array[i] << " на позиции " << i << endl;
+        }
+        i++;
+    }
     
     delete[] demo_array_double;
     
-    // ⭐ ИЗМЕНЕНИЕ PERSON1 - КОНЕЦ demo_stupenchataya ⭐
-    cout << "\nДемонстрация завершена. Нажмите Enter для перехода к основной программе...";
+    cout << "\nНажмите Enter для продолжения...";
     cin.ignore();
     cin.get();
     system("clear");
-    
-    // Добавляем небольшую задержку для лучшей читаемости
-    cout << "Переход к основной программе..." << endl;
 }
 
 /**************************************************************/
