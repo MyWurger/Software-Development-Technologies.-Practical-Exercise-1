@@ -91,9 +91,12 @@ void demo_stupenchataya()
 /*            ОСНОВНАЯ ФУНКЦИЯ ПРОГРАММЫ                      */
 /**************************************************************/
 
-int main()
+int main(int argc, char* argv[])  // Добавляем параметры командной строки
 {
-    // system("color F0");                         // Установка цвета фона (Windows only)
+    // Логирование запуска программы
+    cout << "Программа запущена с " << argc << " параметрами" << endl;
+
+    // system("color F0");
     setlocale(LC_ALL, "Rus");                   // Установка русской локали
     // system("cls");                              // Очистка экрана (Windows only)
     system("clear");                            // Очистка экрана (Unix/macOS)
