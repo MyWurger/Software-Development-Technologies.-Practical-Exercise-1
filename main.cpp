@@ -78,6 +78,13 @@ void demo_stupenchataya()
         }
         cout << " (" << demo_array_double[i] << ")" << endl;
     }
+
+    cout << "\nДополнительная обработка (person3 - for цикл):" << endl;
+    for (int i = 0; i < demo_size; i++) {
+        if (demo_array[i] % 2 == 0) {
+            cout << "Четное число: " << demo_array[i] << " на позиции " << i << endl;
+        }
+    }
     
     delete[] demo_array_double;
     
