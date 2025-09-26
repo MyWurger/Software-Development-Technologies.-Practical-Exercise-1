@@ -1,0 +1,84 @@
+From 951411f72e5280f15b1c793a88578d3f789e905c Mon Sep 17 00:00:00 2001
+From: MyWurger <wdgwdg9@gmail.com>
+Date: Fri, 26 Sep 2025 12:56:40 +0300
+Subject: [PATCH 2/3] =?UTF-8?q?SDTPE1:=20=D0=94=D0=BE=D0=B1=D0=B0=D0=B2?=
+ =?UTF-8?q?=D0=B8=D1=82=D1=8C=20=D0=B2=D1=8B=D0=B2=D0=BE=D0=B4=20=D0=B1?=
+ =?UTF-8?q?=D0=B0=D0=B7=D0=BE=D0=B2=D0=BE=D0=B9=20=D1=81=D1=82=D0=B0=D1=82?=
+ =?UTF-8?q?=D0=B8=D1=81=D1=82=D0=B8=D0=BA=D0=B8=20=D0=B4=D0=BB=D1=8F=20?=
+ =?UTF-8?q?=D1=81=D0=B3=D0=B5=D0=BD=D0=B5=D1=80=D0=B8=D1=80=D0=BE=D0=B2?=
+ =?UTF-8?q?=D0=B0=D0=BD=D0=BD=D1=8B=D1=85=20=D0=BF=D0=BE=D1=81=D0=BB=D0=B5?=
+ =?UTF-8?q?=D0=B4=D0=BE=D0=B2=D0=B0=D1=82=D0=B5=D0=BB=D1=8C=D0=BD=D0=BE?=
+ =?UTF-8?q?=D1=81=D1=82=D0=B5=D0=B9?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ sequences.cpp | 37 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
+
+diff --git a/sequences.cpp b/sequences.cpp
+index 3da3aba..1b2213f 100644
+--- a/sequences.cpp
++++ b/sequences.cpp
+@@ -21,6 +21,41 @@
+ /*             РЕАЛИЗАЦИЯ ФУНКЦИЙ                 */
+ /***************************************************/
+ 
++namespace
++{
++    template <typename T>
++    void print_basic_stats(const T* values, int count)
++    {
++        if (values == nullptr || count <= 0)
++        {
++            cout << "Статистика недоступна: последовательность не содержит элементов." << endl;
++            return;
++        }
++
++        T min_value = values[0];
++        T max_value = values[0];
++        long double sum = static_cast<long double>(values[0]);
++
++        for (int i = 1; i < count; ++i)
++        {
++            const T value = values[i];
++            if (value < min_value)
++            {
++                min_value = value;
++            }
++            if (value > max_value)
++            {
++                max_value = value;
++            }
++            sum += static_cast<long double>(value);
++        }
++
++        cout << "Статистика последовательности: минимум = " << min_value
++             << ", максимум = " << max_value
++             << ", среднее = " << static_cast<long double>(sum) / count << endl;
++    }
++}
++
+ /*-------------------------------------------------*/
+ /* Функция вывода меню */
+ /*-----------------------------------*/
+@@ -293,6 +328,7 @@ void pechat_int_mass(int* pznachenue, int number, const int rand_max)
+         }
+         cout << "+------------------------------+" << endl;  // Вывод нижней границы таблицы
+         setlocale(LC_ALL, "Rus");                                           // Установка русской локали 
++        print_basic_stats(pznachenue, number);                                // Базовая статистика по последовательности
+         cout << "Время выполнения функции, формирующей алгоритм = " << chrono::duration_cast<chrono::microseconds>(end - start).count() << "  микросекунд; \n\n";             // Вывод на экран время работы
+         // system("pause");                                                    // Пауза (Windows only)
+         cout << "Нажмите Enter для продолжения...";
+@@ -542,6 +578,7 @@ void pechat_doub_mass(double pznacheniedoub[], int number, const int rand_max)
+         }
+         cout << "+------------------------------+" << endl;    // Вывод нижней границы таблицы
+         setlocale(LC_ALL, "Rus");                                             // Установка русской локали
++        print_basic_stats(pznacheniedoub, number);                              // Базовая статистика по последовательности
+         cout << "Время выполнения функции, формирующей алгоритм = " << chrono::duration_cast<chrono::microseconds>(end - start).count() << "  микросекунд; \n\n";            // Вывод на экран время работы функции
+         // system("pause");                                                    // Пауза (Windows only)
+         cout << "Нажмите Enter для продолжения...";
+-- 
+2.50.1 (Apple Git-155)
+

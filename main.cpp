@@ -90,7 +90,7 @@ void demo_stupenchataya(int demo_rand_max)
 /*            ОСНОВНАЯ ФУНКЦИЯ ПРОГРАММЫ                      */
 /**************************************************************/
 
-int main()
+int main(int argc, char *argv[])
 {
     // Простейший парсер аргументов командной строки
     unsigned int seed = static_cast<unsigned int>(time(nullptr));
