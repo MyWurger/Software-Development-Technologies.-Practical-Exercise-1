@@ -21,6 +21,41 @@
 /*             РЕАЛИЗАЦИЯ ФУНКЦИЙ                 */
 /***************************************************/
 
+namespace
+{
+    template <typename T>
+    void print_basic_stats(const T* values, int count)
+    {
+        if (values == nullptr || count <= 0)
+        {
+            cout << "Статистика недоступна: последовательность не содержит элементов." << endl;
+            return;
+        }
+
+        T min_value = values[0];
+        T max_value = values[0];
+        long double sum = static_cast<long double>(values[0]);
+
+        for (int i = 1; i < count; ++i)
+        {
+            const T value = values[i];
+            if (value < min_value)
+            {
+                min_value = value;
+            }
+            if (value > max_value)
+            {
+                max_value = value;
+            }
+            sum += static_cast<long double>(value);
+        }
+
+        cout << "Статистика последовательности: минимум = " << min_value
+             << ", максимум = " << max_value
+             << ", среднее = " << static_cast<long double>(sum) / count << endl;
+    }
+}
+
 /*-------------------------------------------------*/
 /* Функция вывода меню */
 /*-----------------------------------*/
@@ -293,6 +328,7 @@ void pechat_int_mass(int* pznachenue, int number, const int rand_max)
         }
         cout << "+------------------------------+" << endl;  // Вывод нижней границы таблицы
         setlocale(LC_ALL, "Rus");                                           // Установка русской локали 
+        print_basic_stats(pznachenue, number);                                // Базовая статистика по последовательности
         cout << "Время выполнения функции, формирующей алгоритм = " << chrono::duration_cast<chrono::microseconds>(end - start).count() << "  микросекунд; \n\n";             // Вывод на экран время работы
         // system("pause");                                                    // Пауза (Windows only)
         cout << "Нажмите Enter для продолжения...";
@@ -542,6 +578,7 @@ void pechat_doub_mass(double pznacheniedoub[], int number, const int rand_max)
         }
         cout << "+------------------------------+" << endl;    // Вывод нижней границы таблицы
         setlocale(LC_ALL, "Rus");                                             // Установка русской локали
+        print_basic_stats(pznacheniedoub, number);                              // Базовая статистика по последовательности
         cout << "Время выполнения функции, формирующей алгоритм = " << chrono::duration_cast<chrono::microseconds>(end - start).count() << "  микросекунд; \n\n";            // Вывод на экран время работы функции
         // system("pause");                                                    // Пауза (Windows only)
         cout << "Нажмите Enter для продолжения...";
