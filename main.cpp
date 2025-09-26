@@ -22,16 +22,17 @@
 #include <string>
 #include <ctime>
 #include <cstdlib>
+#include <limits>
 
 // Функция для демонстрации ступенчатой последовательности
-void demo_stupenchataya()
+void demo_stupenchataya(int demo_rand_max)
 {
     cout << "===============================================" << endl;
     cout << "    ДЕМОНСТРАЦИЯ СТУПЕНЧАТОЙ ФУНКЦИИ         " << endl;
     cout << "===============================================" << endl;
     
     const int demo_size = 12;
-    const int rand_max = 15;
+    const int rand_max = (demo_rand_max > 0) ? demo_rand_max : 1;
     int* demo_array = new int[demo_size];
     
     // Генерируем ступенчатую последовательность
@@ -107,15 +108,18 @@ int main(int argc, char* argv[])  // Добавляем параметры ко�
     unsigned int seed = static_cast<unsigned int>(time(nullptr));
     bool user_seed = false;
     bool skip_demo = false;
+    int rand_max_value = 15;
+    bool user_rand_max = false;
 
     for (int i = 1; i < argc; ++i) {
         string arg(argv[i]);
         if (arg == "--help" || arg == "-h") {
             cout << "Использование: " << argv[0]
-                 << " [--seed=N | -s N] [--skip-demo] [--help]" << endl
-                 << "  --seed=N, -s N   Установить зерно генератора rand()" << endl
-                 << "  --skip-demo      Пропустить демонстрацию ступенчатой функции" << endl
-                 << "  --help, -h       Показать эту справку и выйти" << endl;
+                 << " [--seed=N | -s N] [--rand-max=N | -r N] [--skip-demo] [--help]" << endl
+                 << "  --seed=N, -s N     Установить зерно генератора rand()" << endl
+                 << "  --rand-max=N, -r N Задать верхнюю границу случайных значений" << endl
+                 << "  --skip-demo        Пропустить демонстрацию ступенчатой функции" << endl
+                 << "  --help, -h         Показать эту справку и выйти" << endl;
             return 0;
         } else if (arg.rfind("--seed=", 0) == 0) {
             try {
@@ -138,6 +142,37 @@ int main(int argc, char* argv[])  // Добавляем параметры ко�
                 cerr << "Отсутствует значение после -s." << endl;
                 return 1;
             }
+        } else if (arg.rfind("--rand-max=", 0) == 0) {
+            try {
+                unsigned long parsed = stoul(arg.substr(11));
+                if (parsed == 0 || parsed > static_cast<unsigned long>(std::numeric_limits<int>::max())) {
+                    cerr << "Недопустимое значение для --rand-max. Требуется положительное целое число." << endl;
+                    return 1;
+                }
+                rand_max_value = static_cast<int>(parsed);
+                user_rand_max = true;
+            } catch (...) {
+                cerr << "Некорректное значение для --rand-max. Ожидается целое число." << endl;
+                return 1;
+            }
+        } else if (arg == "-r") {
+            if (i + 1 < argc) {
+                try {
+                    unsigned long parsed = stoul(argv[++i]);
+                    if (parsed == 0 || parsed > static_cast<unsigned long>(std::numeric_limits<int>::max())) {
+                        cerr << "Недопустимое значение после -r. Требуется положительное целое число." << endl;
+                        return 1;
+                    }
+                    rand_max_value = static_cast<int>(parsed);
+                    user_rand_max = true;
+                } catch (...) {
+                    cerr << "Некорректное значение после -r. Ожидается целое число." << endl;
+                    return 1;
+                }
+            } else {
+                cerr << "Отсутствует значение после -r." << endl;
+                return 1;
+            }
         } else if (arg == "--skip-demo") {
             skip_demo = true;
         } else {
@@ -150,6 +185,8 @@ int main(int argc, char* argv[])  // Добавляем параметры ко�
     srand(seed);
     cout << "Зерно генератора rand(): " << seed
          << (user_seed ? " (задано пользователем)" : " (по умолчанию)") << endl;
+    cout << "Верхняя граница случайных значений: " << rand_max_value
+         << (user_rand_max ? " (задано пользователем)" : " (по умолчанию)") << endl;
 
     // system("color F0");
     setlocale(LC_ALL, "Rus");                   // Установка русской локали
@@ -157,7 +194,7 @@ int main(int argc, char* argv[])  // Добавляем параметры ко�
     system("clear");                            // Очистка экрана (Unix/macOS)
 
     int number = 0;                             // Количество элементов последовательности
-    const int rand_max = 15;                    // Максимальное значение для генерации
+    const int rand_max = rand_max_value;         // Максимальное значение для генерации
     int* pznachenue = NULL;                     // Указатель на динамический массив целых чисел
     double* pznacheniedoub = NULL;              // Указатель на динамический массив чисел с плавающей точкой
     
@@ -176,7 +213,7 @@ int main(int argc, char* argv[])  // Добавляем параметры ко�
         system("clear");
 
         // Автоматическая демонстрация ступенчатой функции
-        demo_stupenchataya();
+        demo_stupenchataya(rand_max);
     } else {
         cout << "Демонстрация ступенчатой функции пропущена (--skip-demo)." << endl;
     }
